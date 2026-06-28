@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications
+  namespace: stube-beta
+  labels:
+    app: notifications
+    stube.value-stream: stube
+spec:
+  # Scaled to 0 until Phase 2. Bump to 2+ once mobile clients ship.
+  replicas: 0
+  selector:
+    matchLabels:
+      app: notifications
+  template:
+    metadata:
+      labels:
+        app: notifications
+        stube.value-stream: stube
+    spec:
+      serviceAccountName: notifications
+      containers:
+        - name: notifications
+          image: zaentrum/notifications:placeholder
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: LISTEN_ADDR
+              value: ":8080"
+            - name: KAFKA_BROKERS
+              value: platform-kafka-kafka-bootstrap.platform-event-streaming.svc:9093
+            - name: KAFKA_GROUP_ID
+              value: notifications
+            - name: KAFKA_TOPICS
+              value: stube.notify.user.push
+          envFrom:
+            - secretRef:
+                name: notifications-push-credentials
+          readinessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /healthz, port: http }
+            periodSeconds: 30
+          resources:
+            requests: { cpu: "50m",  memory: "64Mi" }
+            limits:   { cpu: "500m", memory: "256Mi" }

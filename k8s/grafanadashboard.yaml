@@ -1,0 +1,20 @@
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: notifications
+  namespace: stube-beta
+  labels:
+    app: notifications
+    stube.value-stream: stube
+spec:
+  instanceSelector:
+    matchLabels:
+      dashboards: grafana-platform
+  json: |
+    {
+      "title": "stube / notifications",
+      "schemaVersion": 39,
+      "version": 1,
+      "panels": [],
+      "tags": ["stube", "notifications"]
+    }
