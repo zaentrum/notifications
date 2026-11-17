@@ -2,10 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: notifications
-  namespace: stube-beta
   labels:
     app: notifications
-    stube.value-stream: stube
 spec:
   type: ClusterIP
   selector:

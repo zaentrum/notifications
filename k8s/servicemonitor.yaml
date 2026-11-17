@@ -2,10 +2,8 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: notifications
-  namespace: stube-beta
   labels:
     app: notifications
-    stube.value-stream: stube
     release: kube-prometheus-stack
 spec:
   selector:

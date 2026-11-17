@@ -24,7 +24,7 @@ type Config struct {
 func FromEnv() Config {
 	return Config{
 		ListenAddr:    envOr("LISTEN_ADDR", ":8080"),
-		KafkaBrokers:  splitCSV(envOr("KAFKA_BROKERS", "platform-kafka-kafka-bootstrap.platform-event-streaming.svc:9093")),
+		KafkaBrokers:  splitCSV(envOr("KAFKA_BROKERS", "kafka:9092")),
 		KafkaGroupID:  envOr("KAFKA_GROUP_ID", "notifications"),
 		KafkaTopics:   splitCSV(envOr("KAFKA_TOPICS", "stube.notify.user.push")),
 		APNsKeyPath:   os.Getenv("APNS_KEY_PATH"),
